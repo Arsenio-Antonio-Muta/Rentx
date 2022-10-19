@@ -1,57 +1,56 @@
 {
-    "env": { "jest": true, "es2021": true, "node": true },
-    "extends":
+  "env": { "jest": true, "es2021": true, "node": true },
+  "extends":
+    [
+      "airbnb-base",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "plugin:prettier/recommended"
+    ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "ecmaVersion": 12, "sourceType": "module" },
+  "plugins":
+    [
+      "@typescript-eslint",
+      "eslint-plugin-import-helpers",
+      "prettier"
+    ],
+  "rules":
+    {
+      "camelcase": "off",
+      "import/no-unresolved": "error",
+      "@typescript-eslint/naming-convention":
         [
-            "airbnb-base",
-            "plugin:@typescript-eslint/recommended",
-            "prettier",
-            "plugin:prettier/recommended"
+          "error",
+          {
+              "selector": "interface",
+              "format": [ "PascalCase" ],
+              "custom": { "regex": "^I[A-Z]", "match": true }
+            }
         ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": { "ecmaVersion": 12, "sourceType": "module" },
-    "plugins":
+      "class-methods-use-this": "off",
+      "import/prefer-default-export": "off",
+      "no-shadow": "off",
+      "no-console": "off",
+      "no-useless-constructor": "off",
+      "no-empty-function": "off",
+      "lines-between-class-members": "off",
+      "import/extensions": [ "error", "ignorePackages", { "ts": "never" } ],
+      "import-helpers/order-imports":
         [
-            "@typescript-eslint",
-            "eslint-plugin-import-helpers",
-            "prettier"
+          "warn",
+          {
+              "newlinesBetween": "always",
+              "groups": [ "module", "/^@/", [ "parent", "sibling", "index" ] ],
+              "alphabetize": { "order": "asc", "ignoreCase": true }
+            }
         ],
-    "rules":
-        {
-            "camelcase": "off",
-            "import/no-unresolved": "error",
-            "@typescript-eslint/naming-convention":
-                [
-                    "error",
-                    {
-                          "selector": "interface",
-                          "format": [ "PascalCase" ],
-                          "custom": { "regex": "^I[A-Z]", "match": true }
-                      }
-                ],
-            "class-methods-use-this": "off",
-            "import/prefer-default-export": "off",
-            "no-shadow": "off",
-            "no-console": "off",
-            "no-useless-constructor": "off",
-            "no-empty-function": "off",
-            "lines-between-class-members": "off",
-            "import/extensions": [ "error", "ignorePackages", { "ts": "never" } ],
-            "import-helpers/order-imports":
-                [
-                    "warn",
-                    {
-                          "newlinesBetween": "always",
-                          "groups":
-                              [
-                                  "module",
-                                  "/^@shared/",
-                                  [ "parent", "sibling", "index" ]
-                              ],
-                          "alphabetize": { "order": "asc", "ignoreCase": true }
-                      }
-                ],
-            "import/no-extraneous-dependencies": [ "error", { "devDependencies": [ "**/*.spec.js" ] } ],
-            "prettier/prettier": "error"
-        },
-    "settings": { "import/resolver": { "typescript": {} } }
+      "import/no-extraneous-dependencies":
+        [
+          "error",
+          { "devDependencies": [ "**/*.spec.js", "jest.config.ts" ] }
+        ],
+      "prettier/prettier": "error"
+    },
+  "settings": { "import/resolver": { "typescript": {} } }
 }

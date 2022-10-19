@@ -1,8 +1,11 @@
+/* eslint-disable prettier/prettier */
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
-import { IUserRepository } from "../../repositories/IUsersRepositories";
+import { IUserRepository } from "@modules/accounts/repositories/IUsersRepositories";
+import { AppError } from "@shared/errors/AppError";
+
 
 interface IRequest {
   email: string;
@@ -28,13 +31,13 @@ class AuthenticateUserUserCase {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new Error("Email or password incorrect");
+      throw new AppError("Email or password incorrect");
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("Email or password incorrect");
+      throw new AppError("Email or password incorrect");
     }
 
     const token = sign({}, "2aa2374f8e0d52c5330f0b66637e4c7e", {
@@ -42,10 +45,15 @@ class AuthenticateUserUserCase {
       expiresIn: "1d",
     });
 
-    return {
-      user,
+    const returnToken: IResponse = {
       token,
+      user: {
+        name: user.name,
+        email: user.email,
+      },
     };
+
+    return returnToken;
   }
 }
 

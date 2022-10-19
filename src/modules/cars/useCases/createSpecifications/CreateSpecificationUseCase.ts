@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { inject, injectable } from "tsyringe";
 
-import { ISpecificationRepository } from "../../repositories/ISpecificationRepository";
+import { AppError } from "@shared/errors/AppError";
+import { ISpecificationRepository } from "@modules/cars/repositories/ISpecificationRepository";
 
 interface IRequest {
   name: string;
@@ -9,7 +11,6 @@ interface IRequest {
 
 @injectable()
 class CreateSpecificationUseCase {
-  // eslint-disable-next-line prettier/prettier
   constructor(
     @inject("SpecificationsRepository")
     private specificationRepository: ISpecificationRepository
@@ -20,7 +21,7 @@ class CreateSpecificationUseCase {
       await this.specificationRepository.findByName(name);
 
     if (specificationAlreadyExists) {
-      throw new Error("Specification already exists");
+      throw new AppError("Specification already exists");
     }
 
     await this.specificationRepository.create({ name, description });
