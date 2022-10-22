@@ -3,6 +3,7 @@
 
 
 import dayjs from "dayjs";
+import { inject, injectable } from "tsyringe";
 
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppError } from "@shared/errors/AppError";
@@ -18,8 +19,12 @@ interface IRequest {
 }
 const minimumHours = 24;
 
+@injectable()
 class CreateRentalUseCase {
-  constructor(private rentalsRepository: IRentalsRepository,
+  constructor(
+    @inject("RentalsRepository")
+    private rentalsRepository: IRentalsRepository,
+    @inject("DayjsDateProvider")
     private dateProvider: IDateProvider
   ) { }
 
