@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Arsenio\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add tsconfig-paths -D
+  C:\Program Files\nodejs\node.exe C:\Users\Arsenio\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add dayjs
 
 PATH: 
   C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\MongoDB\Tools\100\bin;C:\Program Files\MongoDB\Server\5.0\bin;;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\Arsenio\AppData\Local\Microsoft\WindowsApps;C:\Users\Arsenio\AppData\Roaming\npm;C:\Program Files\xampp\mysql\bin;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\Arsenio\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Multipass\bin
@@ -14,7 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Arsenio\Desktop\NODEJS-IGNITE\RENTALX\node_modules\.bin\ts-node-dev'
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)
 
 npm manifest: 
   {
@@ -23,9 +24,10 @@ npm manifest:
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-      "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-      "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
-      "test": "jest"
+      "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
+      "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
+      "test": "jest",
+      "seed:admin": "ts-node-dev src/shared/infra/typeorm/seed/admin.ts"
     },
     "dependencies": {
       "bcryptjs": "^2.4.3",
@@ -62,6 +64,7 @@ npm manifest:
       "prettier": "^2.7.1",
       "ts-jest": "^29.0.3",
       "ts-node-dev": "^2.0.0",
+      "tsconfig-paths": "^4.1.0",
       "typescript": "^4.8.3"
     }
   }
@@ -4280,6 +4283,15 @@ Lockfile:
     dependencies:
       "@types/json5" "^0.0.29"
       json5 "^1.0.1"
+      minimist "^1.2.6"
+      strip-bom "^3.0.0"
+  
+  tsconfig-paths@^4.1.0:
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-4.1.0.tgz#f8ef7d467f08ae3a695335bf1ece088c5538d2c1"
+    integrity sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow==
+    dependencies:
+      json5 "^2.2.1"
       minimist "^1.2.6"
       strip-bom "^3.0.0"
   
