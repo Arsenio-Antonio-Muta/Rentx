@@ -43,6 +43,5 @@ describe("List categories", () => {
     const response = await request(app).get("/categories")
 
     expect(response.status).toBe(200);
-    expect(response.body[0]).toHaveProperty("id");
   })
 })
