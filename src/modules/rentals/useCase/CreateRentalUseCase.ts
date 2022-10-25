@@ -1,7 +1,4 @@
 /* eslint-disable prettier/prettier */
-
-
-
 import dayjs from "dayjs";
 import { inject, injectable } from "tsyringe";
 
@@ -10,6 +7,7 @@ import { AppError } from "@shared/errors/AppError";
 
 import { Rental } from "../infra/typeorm/entities/Rental";
 import { IRentalsRepository } from "../repositories/IRentalsRepository";
+import { ICarsRepository } from "@modules/cars/repositories/ICarRepository";
 
 
 interface IRequest {
@@ -25,7 +23,9 @@ class CreateRentalUseCase {
     @inject("RentalsRepository")
     private rentalsRepository: IRentalsRepository,
     @inject("DayjsDateProvider")
-    private dateProvider: IDateProvider
+    private dateProvider: IDateProvider,
+    @inject("CarsRepository")
+    private carsRepository: ICarsRepository
   ) { }
 
   async execute({
@@ -33,12 +33,12 @@ class CreateRentalUseCase {
     car_id,
     expected_return_date,
   }: IRequest): Promise<Rental> {
-    const carUnavaible = await this.rentalsRepository.findOpenRentalByCar(
+    const carUnavailable = await this.rentalsRepository.findOpenRentalByCar(
       car_id
     );
 
-    if (carUnavaible) {
-      throw new AppError("Car is unaivable");
+    if (carUnavailable) {
+      throw new AppError("Car is unaivalable");
     }
 
     const rentalOpenToUser = await this.rentalsRepository.findOpenRentalByUser(
@@ -61,7 +61,9 @@ class CreateRentalUseCase {
       user_id,
       car_id,
       expected_return_date
-    })
+    });
+
+    await this.carsRepository.updateAvailable(car_id, false);
 
     return rental;
   }

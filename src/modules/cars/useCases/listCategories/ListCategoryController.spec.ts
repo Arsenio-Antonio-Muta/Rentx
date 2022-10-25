@@ -7,57 +7,42 @@ import { app } from "@shared/infra/http/app";
 import createConnection from "@shared//infra/typeorm"
 
 let connection: Connection;
-describe("Create Category Controller", () => {
+
+
+
+describe("List categories", () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
-
     const id = uuidV4();
     const password = await hash("admin", 8);
-
     await connection.query(
       `INSERT INTO USERS(id, name, email, password, "isAdmin", created_at, drive_licence )
       values('${id}', 'admin', 'admin@rentx.com.br', '${password}', true, 'now()', 'XXXXXX')
     `
     );
   });
-
   afterAll(async () => {
     await connection.dropDatabase();
     await connection.close();
   })
-
-  it("Should be able to create a new category", async () => {
-    const responseToken = await request(app).post("/sessions").send({
-      email: "admin@rentx.com.br",
-      password: "admin"
-    });
-
-    const { token } = responseToken.body
-
-    const response = await request(app).post("/categories").send({
-      name: "Category Supertest13",
-      description: "Category Supertest13"
-    }).set({
-      Authorization: `Bearer ${token}`
-    });
-
-    expect(response.status).toBe(201)
-  })
-
-  it("Should not be able to create a new category with name exists", async () => {
+  it("Should be able list all categories", async () => {
     const responseToken = await request(app).post("/sessions").send({
       email: "admin@rentx.com.br",
       password: "admin"
     });
     const { token } = responseToken.body
-    const response = await request(app).post("/categories").send({
-      name: "Category Supertest12",
-      description: "Category Supertest12"
+
+    await request(app).post("/categories").send({
+      name: "Category Supertest2",
+      description: "Category Supertest2"
     }).set({
       Authorization: `Bearer ${token}`
     });
 
-    expect(response.status).toBe(400)
+    const response = await request(app).get("/categories")
+
+    expect(response.status).toBe(200);
+    expect(response.body[0]).toHaveProperty("id");
   })
 })
