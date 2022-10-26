@@ -3,6 +3,7 @@ import { inject, injectable } from "tsyringe";
 
 import { Car } from "@modules/cars/infra/typeorm/entities/Car";
 import { ICarsRepository } from "@modules/cars/repositories/ICarRepository";
+import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
   name: string;
@@ -32,7 +33,7 @@ class CreateCarUseCase {
     const carsAlreadyExists = await this.carsRepository.findByLicensePlate(license_plate)
 
     if (carsAlreadyExists) {
-      throw new Error("Cars already exists")
+      throw new AppError("Cars already exists")
     }
 
     const car = await this.carsRepository.create({
