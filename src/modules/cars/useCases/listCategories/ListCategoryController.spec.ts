@@ -31,13 +31,13 @@ describe("List categories", () => {
       email: "admin@rentx.com.br",
       password: "admin"
     });
-    const { token } = responseToken.body
+    const { refresh_token } = responseToken.body
 
     await request(app).post("/categories").send({
       name: "Category Supertest2",
       description: "Category Supertest2"
     }).set({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${refresh_token}`
     });
 
     const response = await request(app).get("/categories")
