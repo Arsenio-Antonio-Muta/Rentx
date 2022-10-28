@@ -4,8 +4,8 @@ import { resolve } from "path";
 
 import { AppError } from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import { IUserRepository } from "../repositories/IUsersRepositories";
-import { IUsersTokensRepository } from "../repositories/IUsersTokensRepository";
+import { IUserRepository } from "../../repositories/IUsersRepositories";
+import { IUsersTokensRepository } from "../../repositories/IUsersTokensRepository";
 import { IMailProvider } from "@shared/container/providers/MailProvider/IMailProvider";
 
 
