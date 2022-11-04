@@ -5,7 +5,7 @@ import { IUsersTokensRepository } from "../IUsersTokensRepository";
 
 
 class UsersTokensRepositoryInMemory implements IUsersTokensRepository {
-  usersTokens: UserTokens[];
+  usersTokens: UserTokens[] = [];
 
   async create({ expires_date, refresh_token, user_id }: ICreateUserTokenDTO): Promise<UserTokens> {
     const userToken = new UserTokens();
